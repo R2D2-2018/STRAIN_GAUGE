@@ -22,14 +22,14 @@ double StrainGauge::filterReadings() {
     return (double) total / readings;
 }
 
-double StrainGauge::convertVoltageToResistance(int voltage) {
+double StrainGauge::convertVoltageToResistance(double voltage) {
     /// U = I * R, so R = U / I
     /// Chosen value for now.
     double current = 0.1;
     return voltage/current;
 }
 
-double StrainGauge::convertResistanceToX(int resistance) {
+double StrainGauge::convertResistanceToX(double resistance) {
     /// A random factor, whatever it needs to be to convert the resistance to any desired unit.
     /// Calibration is required to determine this number.
     double factor = 3.45;

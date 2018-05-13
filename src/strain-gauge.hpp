@@ -32,7 +32,7 @@ public:
      * @param[in] voltage The measured voltage through the strain gauge
      * @return resistance calculated by dividing voltage by current
      */
-    double convertVoltageToResistance(int voltage);
+    double convertVoltageToResistance(double voltage);
 
     /**
      * @brief Convert the resistance to a desired unit.
@@ -43,7 +43,7 @@ public:
      * @param[in] resistance The resistance calculated from the current and measured voltage
      * @return What will the function return
      */
-    double convertResistanceToX(int resistance);
+    double convertResistanceToX(double resistance);
 
     /**
      * @brief Calibrate the strain gauge.
