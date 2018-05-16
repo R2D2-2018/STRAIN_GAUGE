@@ -6,13 +6,13 @@ int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
 
     hwlib::wait_ms(1000);
-    hwlib::cout << "Hello world!" << hwlib::endl;
+    hwlib::cout << "Hello world!\r" << hwlib::endl;
 
     StrainGauge strainGauge = StrainGauge();
-    hwlib::cout << strainGauge.readSensor() << hwlib::endl;
-    hwlib::cout << (int) strainGauge.filterReadings() << hwlib::endl;
-    hwlib::cout << (int) strainGauge.convertVoltageToResistance(4.3) << hwlib::endl;
-    hwlib::cout << (int) strainGauge.convertResistanceToX(2.64) << hwlib::endl;
+    hwlib::cout << strainGauge.readSensor() << "\r" << hwlib::endl;
+    hwlib::cout << (int) strainGauge.filterReadings() << "\r" << hwlib::endl;
+    hwlib::cout << (int) strainGauge.convertVoltageToResistance(4.3) << "\r" << hwlib::endl;
+    hwlib::cout << (int) strainGauge.convertResistanceToX(2.64) << "\r" << hwlib::endl;
     
     return 0;
 }
