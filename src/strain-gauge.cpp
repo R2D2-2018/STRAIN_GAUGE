@@ -9,33 +9,49 @@
 
 int StrainGauge::readSensor() {
     /// This is a random value right now, it does not read a value from an actual strain gauge yet.
-    return 738479;
+    return input.get();
 }
 
-double StrainGauge::filterReadings() {
+void StrainGauge::filterReadings() {
     int total = 0;
     /// The number of readings to take the average from.
     int readings = 0;
     for (int i = 0; i < readings; ++i) {
         total += readSensor();
     }
-    return (double) total / readings;
+    averagReading = total / readings;
 }
 
-double StrainGauge::convertVoltageToResistance(double voltage) {
+void StrainGauge::convertVoltageToResistance() {
     /// U = I * R, so R = U / I
     /// Chosen value for now.
-    double current = 0.1;
-    return voltage/current;
+    // double current = 0.1;
+    convertReadingToVoltage();
+    resistance = voltage/current;
 }
 
-double StrainGauge::convertResistanceToX(double resistance) {
-    /// A random factor, whatever it needs to be to convert the resistance to any desired unit.
+void StrainGauge::convertResistanceToNewton() {
+    /// A random factor, whatever it needs to be to convert the resistance to Newton.
     /// Calibration is required to determine this number.
-    double factor = 3.45;
-    return factor * resistance;
+    newton = newtonFactor * resistance;
 }
 
 void StrainGauge::calibrate() {
 
+}
+
+double StrainGauge::getResistance() {
+    convertVoltageToResistance();
+    return resistance;
+}
+
+double StrainGauge::getNewton() {
+    convertResistanceToNewton();
+    return newton;
+}
+
+void StrainGauge::convertReadingToVoltage() {
+    // 1023 = max reading
+    // 5 = max voltage
+    voltage = averagReading / 1023 * 5;
 }

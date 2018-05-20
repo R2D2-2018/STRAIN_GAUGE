@@ -1,9 +1,16 @@
 #ifndef STRAIN_GAUGE_HPP
 #define STRAIN_GAUGE_HPP
+#include "wrap-hwlib.hpp"
 
 class StrainGauge {
-public:
-    StrainGauge(){}
+private:
+    double voltage; // V
+    double current; // mA
+    double resistance; // Ohm
+    double newton;
+    double newtonFactor;
+    double averagReading;
+    hwlib::pin_in & input;
 
     /**
      * @brief Read the voltage from strain gauge
@@ -21,7 +28,7 @@ public:
      * 
      * @return Average over several sensor readings
      */
-    double filterReadings();
+    void filterReadings();
 
     /**
      * @brief Convert the measured current to resistance
@@ -32,7 +39,7 @@ public:
      * @param[in] voltage The measured voltage through the strain gauge
      * @return resistance calculated by dividing voltage by current
      */
-    double convertVoltageToResistance(double voltage);
+    void convertVoltageToResistance();
 
     /**
      * @brief Convert the resistance to a desired unit.
@@ -43,7 +50,18 @@ public:
      * @param[in] resistance The resistance calculated from the current and measured voltage
      * @return What will the function return
      */
-    double convertResistanceToX(double resistance);
+    void convertResistanceToNewton();
+
+    void convertReadingToVoltage();
+
+public:
+    StrainGauge(hwlib::pin_in & input):
+        voltage(0.0),
+        current(7.14),
+        resistance(350.0),
+        newton(0.0),
+        input(input)
+    {}
 
     /**
      * @brief Calibrate the strain gauge.
@@ -52,6 +70,10 @@ public:
      * 
      */
     void calibrate();
+
+    double getResistance();
+
+    double getNewton();
 };
 
 #endif // STRAIN_GAUGE_HPP
