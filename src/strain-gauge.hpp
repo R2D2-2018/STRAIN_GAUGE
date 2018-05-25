@@ -6,7 +6,7 @@ class StrainGauge {
 private:
     double voltage; // V
     double current; // mA
-    double resistance; // Ohm
+    double resistance; // kOhm
     double newton;
     double newtonFactor;
     double averagReading;
@@ -15,9 +15,9 @@ private:
     /**
      * @brief Read the voltage from strain gauge
      * 
-     * We measure the change in resistance of the strain gauge by observing the change in voltage.
+     * To measure the change in resistance of the strain gauge, this function reads from the analog input.
      * 
-     * @return The measured amount of voltage
+     * @return A value with a 10-bit resolution that reaches up to 5V
      */
     int readSensor();
     
@@ -25,33 +25,31 @@ private:
      * @brief Filter several readings to get a more reliable impression
      * 
      * Take several readings and calculate the average to eliminate spikes
-     * 
-     * @return Average over several sensor readings
      */
     void filterReadings();
 
     /**
-     * @brief Convert the measured current to resistance
+     * @brief Convert the measured voltage to resistance
      * 
-     * Convert measured current to resistance by dividing voltage by current,
+     * Convert measured voltage to resistance by dividing voltage by current,
      * following the formula U = I * R -> R = U / I.
-     * 
-     * @param[in] voltage The measured voltage through the strain gauge
-     * @return resistance calculated by dividing voltage by current
      */
     void convertVoltageToResistance();
 
     /**
      * @brief Convert the resistance to a desired unit.
      * 
-     * This function will convert the resistance to a currently unspecified unit.
-     * This is done by multiplying the resistance by a value that will be specified during calibration.
-     * 
-     * @param[in] resistance The resistance calculated from the current and measured voltage
-     * @return What will the function return
+     * This function will convert the resistance to a Newton
+     * This is done by multiplying the resistance by a value (newtonFactor) that will be determined during calibration.
      */
     void convertResistanceToNewton();
 
+    /**
+     * @brief Convert analog input reading to a voltage
+     * 
+     * This function will the 10-bit sensor reading to a voltage.
+     * This is done by dividing the reading by the maximum value and multiplying by the maximum voltage.
+     */
     void convertReadingToVoltage();
 
 public:
@@ -67,12 +65,25 @@ public:
      * @brief Calibrate the strain gauge.
      * 
      * Calibrate the strain gauge to determine which sensor value corresponds to which amount of strain.
-     * 
      */
     void calibrate();
 
+    /**
+     * @brief Return resistance
+     * 
+     * This function returns the current resistance of the strain gauge in kOhm.
+     * 
+     * @return The resistance in kOhm
+     */
     double getResistance();
 
+    /**
+     * @brief Return Newton
+     * 
+     * This function returns the amount of force on the material the strain gauge is attached to in Newton.
+     * 
+     * @return The force in Newton
+     */
     double getNewton();
 };
 

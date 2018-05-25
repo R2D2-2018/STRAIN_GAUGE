@@ -8,7 +8,6 @@
 #include "strain-gauge.hpp"
 
 int StrainGauge::readSensor() {
-    /// This is a random value right now, it does not read a value from an actual strain gauge yet.
     return input.get();
 }
 
@@ -23,29 +22,28 @@ void StrainGauge::filterReadings() {
 }
 
 void StrainGauge::convertVoltageToResistance() {
-    /// U = I * R, so R = U / I
-    /// Chosen value for now.
-    // double current = 0.1;
+    /// Calculate voltage from sensor reading first.
     convertReadingToVoltage();
     resistance = voltage/current;
 }
 
 void StrainGauge::convertResistanceToNewton() {
-    /// A random factor, whatever it needs to be to convert the resistance to Newton.
-    /// Calibration is required to determine this number.
+    /// Calibration is required to determine newtonFactor.
     newton = newtonFactor * resistance;
 }
 
 void StrainGauge::calibrate() {
-
+    /// Calibrate to determine how much force corresponds to how much strain.
 }
 
 double StrainGauge::getResistance() {
+    /// Recalculate the resistance to make sure it's up to date before returning it.
     convertVoltageToResistance();
     return resistance;
 }
 
 double StrainGauge::getNewton() {
+    /// Update Newton before returning it.
     convertResistanceToNewton();
     return newton;
 }
@@ -53,5 +51,6 @@ double StrainGauge::getNewton() {
 void StrainGauge::convertReadingToVoltage() {
     // 1023 = max reading
     // 5 = max voltage
+    filterReadings();
     voltage = averagReading / 1023 * 5;
 }
