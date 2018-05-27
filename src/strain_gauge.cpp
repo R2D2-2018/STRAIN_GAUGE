@@ -37,13 +37,13 @@ void StrainGauge::calibrate() {
     /// Calibrate to determine how much force corresponds to how much strain.
 }
 
-double StrainGauge::getResistance() {
+int StrainGauge::getResistance() {
     /// Recalculate the resistance to make sure it's up to date before returning it.
     convertVoltageToResistance();
     return resistance;
 }
 
-double StrainGauge::getForce() {
+int StrainGauge::getForce() {
     /// Update Newton before returning it.
     convertResistanceToForce();
     return force;
