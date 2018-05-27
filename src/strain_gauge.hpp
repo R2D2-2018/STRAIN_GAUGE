@@ -6,11 +6,11 @@ class StrainGauge {
 private:
     double voltage; // V
     double current; // mA
-    double resistance; // kOhm
-    double newton;
-    double newtonFactor;
+    double resistance; // Ohm
+    double force; // N
+    double newtonFactor; // N/Ohm
     double averagReading;
-    hwlib::pin_in & input;
+    hwlib::target::pin_adc & input;
 
     /**
      * @brief Read the voltage from strain gauge
@@ -29,6 +29,7 @@ private:
     void filterReadings();
 
     /**
+     * 
      * @brief Convert the measured voltage to resistance
      * 
      * Convert measured voltage to resistance by dividing voltage by current,
@@ -42,7 +43,7 @@ private:
      * This function will convert the resistance to a Newton
      * This is done by multiplying the resistance by a value (newtonFactor) that will be determined during calibration.
      */
-    void convertResistanceToNewton();
+    void convertResistanceToForce();
 
     /**
      * @brief Convert analog input reading to a voltage
@@ -53,13 +54,16 @@ private:
     void convertReadingToVoltage();
 
 public:
-    StrainGauge(hwlib::pin_in & input):
+    StrainGauge(hwlib::target::pin_adc & input):
         voltage(0.0),
-        current(7.14),
-        resistance(350.0),
-        newton(0.0),
+        current(3.19),
+        resistance(0.0),
+        force(0.0),
         input(input)
-    {}
+    {
+        /// The first value seems to be a default value, it's always 255 or 767, so like this it won't trouble us.
+        input.get();
+    }
 
     /**
      * @brief Calibrate the strain gauge.
@@ -84,7 +88,7 @@ public:
      * 
      * @return The force in Newton
      */
-    double getNewton();
+    double getForce();
 };
 
 #endif // STRAIN_GAUGE_HPP

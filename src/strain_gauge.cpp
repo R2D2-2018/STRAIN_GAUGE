@@ -5,7 +5,7 @@
  * @license   See LICENSE
  */
 
-#include "strain-gauge.hpp"
+#include "strain_gauge.hpp"
 
 int StrainGauge::readSensor() {
     return input.get();
@@ -24,12 +24,13 @@ void StrainGauge::filterReadings() {
 void StrainGauge::convertVoltageToResistance() {
     /// Calculate voltage from sensor reading first.
     convertReadingToVoltage();
-    resistance = voltage/current;
+    /// current / 1000 to convert from mA to A
+    resistance = voltage/(current/1000);
 }
 
-void StrainGauge::convertResistanceToNewton() {
+void StrainGauge::convertResistanceToForce() {
     /// Calibration is required to determine newtonFactor.
-    newton = newtonFactor * resistance;
+    force = newtonFactor * resistance;
 }
 
 void StrainGauge::calibrate() {
@@ -42,15 +43,14 @@ double StrainGauge::getResistance() {
     return resistance;
 }
 
-double StrainGauge::getNewton() {
+double StrainGauge::getForce() {
     /// Update Newton before returning it.
-    convertResistanceToNewton();
-    return newton;
+    convertResistanceToForce();
+    return force;
 }
 
 void StrainGauge::convertReadingToVoltage() {
-    // 1023 = max reading
-    // 5 = max voltage
-    filterReadings();
-    voltage = averagReading / 1023 * 5;
+    // 4095 = max reading
+    // 3.3 = max voltage
+    voltage = (double)readSensor() / 4095 * 3.3;
 }
