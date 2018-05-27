@@ -8,7 +8,7 @@ int main() {
     hwlib::wait_ms(1000);
 
     auto input = hwlib::target::pin_adc(hwlib::target::ad_pins::a1);
-    StrainGauge strainGauge = StrainGauge(input);
+    StrainGauge strainGauge(input);
 
     hwlib::cout << "R: " << (int)strainGauge.getResistance() << "\r" << hwlib::endl;
     hwlib::cout << "F: " << (int) strainGauge.getForce()     << "\r" << hwlib::endl;
