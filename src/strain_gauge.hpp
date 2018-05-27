@@ -59,6 +59,7 @@ public:
         current(3.19),
         resistance(0.0),
         force(0.0),
+        newtonFactor(1.0),
         input(input)
     {
         /// The first value seems to be a default value, it's always 255 or 767, so like this it won't trouble us.
