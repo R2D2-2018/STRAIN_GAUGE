@@ -20,7 +20,7 @@
         {
             "label": "clean",
             "type": "shell",
-            "command": "make clean -C ./build",
+            "command": "cmake --build ./build --target clean",
             "group": "none",
             "problemMatcher": []
         }
