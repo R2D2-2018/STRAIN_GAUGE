@@ -4,12 +4,12 @@
 
 class StrainGauge {
 private:
-    double voltage; // V
-    double current; // mA
-    double resistance; // Ohm
-    double force; // N
-    double newtonFactor; // N/Ohm
-    double averagReading;
+    int voltage; // mV
+    int current; // uA
+    int resistance; // Ohm
+    int force; // N
+    int newtonFactor; // N/Ohm
+    int averagReading;
     hwlib::target::pin_adc & input;
 
     /**
@@ -23,6 +23,8 @@ private:
     
     /**
      * @brief Filter several readings to get a more reliable impression
+     * 
+     * This function can be used to take the average of several readings, should this be required.
      * 
      * Take several readings and calculate the average to eliminate spikes
      */
@@ -54,12 +56,20 @@ private:
     void convertReadingToVoltage();
 
 public:
+    /**
+     * @brief Strain gauge constructor
+     * 
+     * The current is set to 3190, this is the measured current through a B1K 1 kOhm potmeter in uA.
+     * The newtonFactor is set to 1.0, because without calibration this value means nothing yet.
+     * 
+     * @param[in] input The analog pin that will be used to read from.
+     */
     StrainGauge(hwlib::target::pin_adc & input):
-        voltage(0.0),
-        current(3.19),
-        resistance(0.0),
-        force(0.0),
-        newtonFactor(1.0),
+        voltage(0),
+        current(3190),
+        resistance(0),
+        force(0),
+        newtonFactor(1),
         input(input)
     {
         /// The first value seems to be a default value, it's always 255 or 767, so like this it won't trouble us.
