@@ -90,7 +90,7 @@ public:
      * 
      * @return The resistance in kOhm
      */
-    double getResistance();
+    int getResistance();
 
     /**
      * @brief Return Newton
@@ -99,7 +99,7 @@ public:
      * 
      * @return The force in Newton
      */
-    double getForce();
+    int getForce();
 };
 
 #endif // STRAIN_GAUGE_HPP
