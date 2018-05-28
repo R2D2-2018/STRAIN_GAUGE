@@ -25,7 +25,7 @@ void StrainGauge::convertVoltageToResistance() {
     /// Calculate voltage from sensor reading first.
     convertReadingToVoltage();
     /// 1000 to convert from uA to mA
-    resistance = 1000*voltage/current;
+    resistance = 1000 * voltage / current;
 }
 
 void StrainGauge::convertResistanceToForce() {
@@ -52,5 +52,5 @@ int StrainGauge::getForce() {
 void StrainGauge::convertReadingToVoltage() {
     /// 4095 = max reading of 12-bit ADC
     /// 3300 = max voltage in mV (3.3V)
-    voltage = 3300*readSensor() / 4095;
+    voltage = 3300 * readSensor() / 4095;
 }
