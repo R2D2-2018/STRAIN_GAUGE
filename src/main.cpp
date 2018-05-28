@@ -10,11 +10,10 @@ int main() {
     auto input = hwlib::target::pin_adc(hwlib::target::ad_pins::a1);
     StrainGauge strainGauge(input);
 
-    hwlib::cout << "R: " << (int)strainGauge.getResistance() << "\r" << hwlib::endl;
-    hwlib::cout << "F: " << (int) strainGauge.getForce()     << "\r" << hwlib::endl;
-    
     while (true) {
-        hwlib::cout << (int)strainGauge.getResistance() << "\r\n";
+        // hwlib::cout << "V: " << strainGauge.readSensor() << "\r" << hwlib::endl;
+        hwlib::cout << "R: " << strainGauge.getResistance() << "\r" << hwlib::endl;
+        hwlib::cout << "F: " << strainGauge.getForce() << "\r" << hwlib::endl;
         hwlib::wait_ms(500);
     }
 
