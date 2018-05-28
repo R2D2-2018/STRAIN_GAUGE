@@ -4,7 +4,7 @@
 #include "strain_gauge.hpp"
 
 TEST_CASE( "Test 12-bit ADC value to voltage to resistance conversion" ) {
-	hwlib::test::pin_adc input = {1032, 293, 192, 3964};
+	hwlib::test::pin_adc<4> input = {1032, 293, 192, 3964};
 	StrainGauge strainGauge(input);
 	REQUIRE(strainGauge.getResistance() == 260);
 	REQUIRE(strainGauge.getResistance() == 74);
@@ -18,7 +18,7 @@ TEST_CASE( "Test 12-bit ADC value to voltage to resistance conversion" ) {
 }
 
 TEST_CASE( "Test resistance to force conversion" ) {
-	hwlib::test::pin_adc input = {1032, 293, 192, 3964};
+	hwlib::test::pin_adc<4> input = {1032, 293, 192, 3964};
 	StrainGauge strainGauge(input);
 	REQUIRE(strainGauge.getForce() == 260);
 	REQUIRE(strainGauge.getForce() == 74);
