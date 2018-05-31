@@ -8,7 +8,7 @@ int main() {
     hwlib::wait_ms(1000);
 
     auto input = hwlib::target::pin_adc(hwlib::target::ad_pins::a1);
-    StrainGauge strainGauge(input);
+    StrainGauge::StrainGauge strainGauge(input);
 
     while (true) {
         // hwlib::cout << "V: " << strainGauge.readSensor() << "\r" << hwlib::endl;
