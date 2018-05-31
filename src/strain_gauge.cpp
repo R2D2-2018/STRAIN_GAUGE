@@ -20,6 +20,7 @@ void StrainGauge::StrainGauge::convertVoltageToResistance() {
 
 void StrainGauge::StrainGauge::convertResistanceToForce() {
     ///< Calibration is required to determine newtonFactor.
+    convertVoltageToResistance();
     force = newtonFactor * resistance;
 }
 

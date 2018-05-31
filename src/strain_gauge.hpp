@@ -5,12 +5,12 @@
 namespace StrainGauge {
 class StrainGauge {
   private:
-    int voltage;          ///< mV
-    int current;          ///< uA
-    int resistance;       ///< Ohm
-    int defaultResistance;///< Ohm
-    int force;            ///< N
-    int newtonFactor;     ///< N/Ohm
+    int voltage;           ///< mV
+    int current;           ///< uA
+    int resistance;        ///< Ohm
+    int defaultResistance; ///< Ohm
+    int force;             ///< N
+    int newtonFactor;      ///< N/Ohm
     hwlib::adc &input;
 
     /**
@@ -56,7 +56,8 @@ class StrainGauge {
      *
      * @param[in] input The analog pin that will be used to read from.
      */
-    StrainGauge(hwlib::adc &input) : voltage(0), current(3190), resistance(0), defaultResistance(350), force(0), newtonFactor(1), input(input) {
+    StrainGauge(hwlib::adc &input)
+        : voltage(0), current(3190), resistance(0), defaultResistance(350), force(0), newtonFactor(1), input(input) {
         ///< The first value seems to be a default value, it's always 255 or 767, so like this it won't trouble us.
         input.get();
     }
@@ -79,9 +80,9 @@ class StrainGauge {
 
     /**
      * @brief Return difference with default resistance
-     * 
+     *
      * Subtract the specified resistance of the strain gauge from the measured resistance to get the delta.
-     * 
+     *
      * @return The delta resistance in Ohm.
      */
     int getDeltaResistance();
