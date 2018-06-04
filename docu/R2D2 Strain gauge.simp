@@ -19,7 +19,7 @@
       </counter>
       <counter>
         <item-type type-id="" type="AbstractElementGroup" />
-        <value>8</value>
+        <value>5</value>
       </counter>
     </entity-ids>
     <diagrams>
@@ -31,7 +31,7 @@
     <fields>
       <counter>
         <type>SoftwareIdeasModeler.Core.DiagramItems.Fields.OperationField</type>
-        <value>17</value>
+        <value>18</value>
       </counter>
       <counter>
         <type>SoftwareIdeasModeler.Core.DiagramItems.Fields.AttributeField</type>
@@ -159,12 +159,15 @@
               <operation id="oa2a462b2754c40419ab71848e277f7ab481" cid="ELEM016" name="getForce" creation-date="01/01/0001 00:00:00" type="int" type-id="int" visibility="public">
                 <style class="default" />
               </operation>
+              <operation id="o7c58a2c7a1c646aa86633673362383d1972" cid="ELEM017" name="getDeltaResistance" creation-date="01/01/0001 00:00:00" type="int" type-id="int" visibility="public">
+                <style class="default" />
+              </operation>
             </operations>
           </item>
         </abstract-items>
         <layer id="ca38ac923a6d47c2803d44f7de936996" name="Default" visible="true" enabled="true" locked="false">
           <item id="di817730485154602369" iid="27ed6ce0eab94acea73da2e6009afba5" creation-date="05/13/2018 22:28:29" order-index="0" type="entity">
-            <layout ax="476" ay="192" awidth="343" aheight="321" x="476" y="192" width="343" height="321" />
+            <layout ax="476" ay="192" awidth="343" aheight="338" x="476" y="192" width="343" height="338" />
             <class />
           </item>
         </layer>
