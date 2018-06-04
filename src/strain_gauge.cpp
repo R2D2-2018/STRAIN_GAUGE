@@ -28,11 +28,10 @@ void StrainGauge::StrainGauge::calibrate(int appliedForce) {
     ///< Calibrate to determine how much force corresponds to how much strain.
     int startValue = readSensor();
     hwlib::cout << "Apply force" << hwlib::endl;
-    while (readSensor() > startValue - 10 && readSensor() < startValue + 10);
+    while (readSensor() > startValue - 10 && readSensor() < startValue + 10)
+        ;
     hwlib::cout << "Starting calibration..." << hwlib::endl;
     auto start = hwlib::now_us();
-    
-
 }
 
 int StrainGauge::StrainGauge::getResistance() {

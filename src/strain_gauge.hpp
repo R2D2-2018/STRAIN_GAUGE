@@ -67,7 +67,7 @@ class StrainGauge {
      *
      * Calibrate the strain gauge to determine which sensor value corresponds to which amount of strain.
      */
-    void calibrate();
+    void calibrate(int appliedForce);
 
     /**
      * @brief Return resistance
