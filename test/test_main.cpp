@@ -13,7 +13,7 @@ TEST_CASE("Test 12-bit ADC value to voltage to resistance conversion") {
 }
 
 TEST_CASE("Test resistance to force conversion") {
-    hwlib::test::pin_adc<> input2 = {2, 1032, 293, 192, 3964};
+    hwlib::test::pin_adc<> input2 = {0, 1032, 293, 192, 3964};
     StrainGauge::StrainGauge strainGauge(input2);
     REQUIRE(strainGauge.getForce() == 260);
     REQUIRE(strainGauge.getForce() == 73);
