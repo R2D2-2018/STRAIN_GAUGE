@@ -1,57 +1,41 @@
 /**
- * @file
- * @brief     This is the implementation file of the StrainGauge class
- * @author    Willem de Groot, 1710045
+ * @file      strain_gauge.cpp
+ * @brief     Strain Gauge functionality
+ * @author    Joost van Lingen
  * @license   See LICENSE
  */
 
 #include "strain_gauge.hpp"
 
-int StrainGauge::readSensor() {
-    return input.get();
-}
-
-void StrainGauge::filterReadings() {
-    int total = 0;
-    /// The number of readings to take the average from.
-    int readings = 0;
-    for (int i = 0; i < readings; ++i) {
-        total += readSensor();
+int StrainGauge::medianFilter(int inputData[5]) {
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (inputData[j] > inputData[j + 1]) {
+                int temp = inputData[j];
+                inputData[j] = inputData[j + 1];
+                inputData[j + 1] = temp;
+            }
+        }
     }
-    averagReading = total / readings;
+    return inputData[2];
 }
 
-void StrainGauge::convertVoltageToResistance() {
-    /// Calculate voltage from sensor reading first.
-    convertReadingToVoltage();
-    /// 1000 to convert from uA to mA
-    resistance = 1000 * voltage / current;
-}
-
-void StrainGauge::convertResistanceToForce() {
-    convertVoltageToResistance();
-    /// Calibration is required to determine newtonFactor.
-    force = newtonFactor * resistance;
-}
-
-void StrainGauge::calibrate() {
-    /// Calibrate to determine how much force corresponds to how much strain.
+void StrainGauge::update() {
+    for (int i = 0; i < 5; i++) {
+        const int temp = inputPin.get();
+        hwlib::cout << hwlib::endl << temp << hwlib::endl; /////////////////////////////////
+        float Vin = temp * maxVoltage / adcSize;
+        rawData[i] = pullDownResistor * (maxVoltage / Vin - 1.0);
+        hwlib::wait_us(100000);
+    }
+    resistance = medianFilter(rawData);
 }
 
 int StrainGauge::getResistance() {
-    /// Recalculate the resistance to make sure it's up to date before returning it.
-    convertVoltageToResistance();
+    update();
     return resistance;
 }
 
-int StrainGauge::getForce() {
-    /// Update Newton before returning it.
-    convertResistanceToForce();
-    return force;
-}
-
-void StrainGauge::convertReadingToVoltage() {
-    /// 4095 = max reading of 12-bit ADC
-    /// 3300 = max voltage in mV (3.3V)
-    voltage = 3300 * readSensor() / 4095;
+void StrainGauge::calibrate() {
+    calibrateValue = getResistance();
 }
