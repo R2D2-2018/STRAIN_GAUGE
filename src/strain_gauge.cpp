@@ -7,7 +7,7 @@
 
 #include "strain_gauge.hpp"
 
-int StrainGauge::medianFilter(std::array<uint8_t, 5> inputData) {
+int StrainGauge::medianFilter(std::array<int, 5> inputData) {
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             if (inputData[j] > inputData[j + 1]) {
