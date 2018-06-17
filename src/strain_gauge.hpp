@@ -8,14 +8,15 @@
 #ifndef STRAIN_GAUGE_HPP
 #define STRAIN_GAUGE_HPP
 #include "wrap-hwlib.hpp"
+#include <array>
 
 class StrainGauge {
   private:
-    const int maxVoltage = 3300;        ///< Voltage when no resistance is applied
-    const int adcSize = 4095;           ///< Range of the ADC on the used Arduino Due pin
-    const int pullDownResistor = 46000; ///< Used pulldown resistor on the sensor
-    int resistance = 0;                 ///< Stores the current resistance measured
-    int rawData[5] = {0, 0, 0, 0, 0};   ///< Stores the raw measurements to be filtered
+    const int maxVoltage = 3300;                      ///< Voltage when no resistance is applied
+    const int adcSize = 4095;                         ///< Range of the ADC on the used Arduino Due pin
+    const int pullDownResistor = 46000;               ///< Used pulldown resistor on the sensor
+    int resistance = 0;                               ///< Stores the current resistance measured
+    std::array<uint8_t, 5> rawData = {0, 0, 0, 0, 0}; ///< Stores the raw measurements to be filtered
 
     /**
      * @brief Median filter
@@ -28,7 +29,7 @@ class StrainGauge {
      * @param inputData: an array of five integers to be filtered
      * @return Median of the given data as integer
      */
-    int medianFilter(int inputData[5]);
+    int medianFilter(std::array<uint8_t, 5> rawData);
 
     /**
      * @brief Update the resistance measurement
