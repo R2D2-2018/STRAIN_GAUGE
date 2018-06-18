@@ -11,5 +11,6 @@ include_directories (${catch}/single_include)
 # Source Files:
 
 set (sources
-	src/strain_gauge.cpp
+src/strain_gauge.cpp
+src/flex_sensor.cpp
 )
