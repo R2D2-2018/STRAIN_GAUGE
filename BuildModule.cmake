@@ -4,8 +4,6 @@ set (sources ${sources}
     src/main.cpp
     src/wrap-hwlib.cpp
     src/libc-stub.cpp
-    src/strain_gauge.cpp
-    src/flex_sensor.cpp
 )
 
 add_definitions (-DBMPTK_TARGET_arduino_due

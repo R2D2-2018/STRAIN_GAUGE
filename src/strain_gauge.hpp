@@ -12,10 +12,10 @@
 
 class StrainGauge {
   private:
-    const int maxVoltage = 3300;                 ///< Voltage when no resistance is applied
-    const int adcSize = 4095;                    ///< Range of the ADC on the used Arduino Due pin
-    const int pullDownResistor = 46000;          ///< Used pulldown resistor on the sensor
-    int resistance = 0;                          ///< Stores the current resistance measured
+    const uint32_t maxVoltage = 3300;            ///< Voltage when no resistance is applied
+    const uint32_t adcSize = 4095;               ///< Range of the ADC on the used Arduino Due pin
+    const uint32_t pullDownResistor = 46000;     ///< Used pulldown resistor on the sensor
+    uint32_t resistance = 0;                     ///< Stores the current resistance measured
     std::array<int, 5> rawData{{0, 0, 0, 0, 0}}; ///< Stores the raw measurements to be filtered
 
     /**
