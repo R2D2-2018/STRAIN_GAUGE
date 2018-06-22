@@ -1,10 +1,3 @@
-/**
- * @file      strain_gauge.cpp
- * @brief     Strain Gauge functionality
- * @author    Joost van Lingen
- * @license   See LICENSE
- */
-
 #include "strain_gauge.hpp"
 
 int StrainGauge::medianFilter(std::array<int, 5> inputData) {
