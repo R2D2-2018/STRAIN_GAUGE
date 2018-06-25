@@ -11,7 +11,7 @@ add_definitions (-DBMPTK_TARGET_arduino_due
                  -DBMPTK_BAUDRATE=19200)
 
 set (cxxflags
-    "-Os"
+    #"-Os"                          <- This line is excluded as workaround for memset error (approved by lead)
     "-ffunction-sections"
     "-fdata-sections"
     "-fno-exceptions"

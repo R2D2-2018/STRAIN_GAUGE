@@ -1,98 +1,79 @@
+/**
+ * @file      strain_gauge.hpp
+ * @brief     Strain Gauge class
+ * @author    Joost van Lingen, Willem de Groot
+ * @license   See LICENSE
+ */
+
 #ifndef STRAIN_GAUGE_HPP
 #define STRAIN_GAUGE_HPP
 #include "wrap-hwlib.hpp"
+#include <array>
 
 class StrainGauge {
   private:
-    int voltage;      // mV
-    int current;      // uA
-    int resistance;   // Ohm
-    int force;        // N
-    int newtonFactor; // N/Ohm
-    int averagReading;
-    hwlib::adc &input;
+    const uint16_t maxVoltage = 3300;            ///< Voltage when no resistance is applied
+    const uint16_t adcSize = 4095;               ///< Range of the ADC on the used Arduino Due pin
+    const uint16_t pullDownResistor = 46000;     ///< Used pulldown resistor on the sensor
+    int resistance = 0;                          ///< Stores the current resistance measured
+    std::array<int, 5> rawData{{0, 0, 0, 0, 0}}; ///< Stores the raw measurements to be filtered
 
     /**
-     * @brief Read the voltage from strain gauge
+     * @brief Median filter
      *
-     * To measure the change in resistance of the strain gauge, this function reads from the analog input.
+     * This function returns the median value from five in an array placed integers.
      *
-     * @return A value with a 10-bit resolution that reaches up to 5V
+     * The integers are sorted from lowest to highest before returning the middle
+     * value (median).
+     *
+     * @param inputData: an array of five integers to be filtered
+     * @return Median of the given data as integer
      */
-    int readSensor();
+    int medianFilter(std::array<int, 5> rawData);
 
     /**
-     * @brief Filter several readings to get a more reliable impression
+     * @brief Update the resistance measurement
      *
-     * This function can be used to take the average of several readings, should this be required.
+     * The current resistance is calculated from the ADC input and stored in the
+     * resistance variable (int).
      *
-     * Take several readings and calculate the average to eliminate spikes
+     * The function measures five times over a course of ~500us after which a median
+     * filter is applied. The resistance is calculated by first calculating the
+     * input voltage by comparing the measurement by the range of the ADC. This value
+     * is then compared to the maximum voltage. Finally, the outcome is multiplied by
+     * the value of the used pulldown resistor.
      */
-    void filterReadings();
+    void update();
 
-    /**
-     *
-     * @brief Convert the measured voltage to resistance
-     *
-     * Convert measured voltage to resistance by dividing voltage by current,
-     * following the formula U = I * R -> R = U / I.
-     */
-    void convertVoltageToResistance();
-
-    /**
-     * @brief Convert the resistance to a desired unit.
-     *
-     * This function will convert the resistance to a Newton
-     * This is done by multiplying the resistance by a value (newtonFactor) that will be determined during calibration.
-     */
-    void convertResistanceToForce();
-
-    /**
-     * @brief Convert analog input reading to a voltage
-     *
-     * This function will the 10-bit sensor reading to a voltage.
-     * This is done by dividing the reading by the maximum value and multiplying by the maximum voltage.
-     */
-    void convertReadingToVoltage();
+  protected:
+    hwlib::adc &inputPin;   ///< Stores the address of the ADC pin connected to the sensor
+    int calibrateValue = 0; ///< Stores the value to calibrate the sensor to
 
   public:
     /**
-     * @brief Strain gauge constructor
+     * @brief StrainGauge constructor
      *
-     * The current is set to 3190, this is the measured current through a B1K 1 kOhm potmeter in uA.
-     * The newtonFactor is set to 1.0, because without calibration this value means nothing yet.
+     * Costructor for StrainGauge.
      *
-     * @param[in] input The analog pin that will be used to read from.
+     * @param inputPin stores the address of the ADC pin the sensor is connected to
      */
-    StrainGauge(hwlib::adc &input) : voltage(0), current(3190), resistance(0), force(0), newtonFactor(1), input(input) {
-        /// The first value seems to be a default value, it's always 255 or 767, so like this it won't trouble us.
-        input.get();
+    explicit StrainGauge(hwlib::adc &inputPin) : inputPin(inputPin) {
     }
-
     /**
-     * @brief Calibrate the strain gauge.
+     * @brief Returns the current measured resistance
      *
-     * Calibrate the strain gauge to determine which sensor value corresponds to which amount of strain.
-     */
-    void calibrate();
-
-    /**
-     * @brief Return resistance
+     * This function calls the update() function before returning the resistance.
      *
-     * This function returns the current resistance of the strain gauge in kOhm.
-     *
-     * @return The resistance in kOhm
+     * @return Current resistance in ohms as integer
      */
     int getResistance();
-
     /**
-     * @brief Return Newton
+     * @brief Calibrate the sensor to a 0 point
      *
-     * This function returns the amount of force on the material the strain gauge is attached to in Newton.
-     *
-     * @return The force in Newton
+     * This function can be called to set the current measured resistance as a
+     * 0 point. This way the resistance can easily be compared to a set point.
      */
-    int getForce();
+    void calibrate();
 };
 
 #endif // STRAIN_GAUGE_HPP
