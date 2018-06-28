@@ -12,27 +12,27 @@
 
 class StrainGauge {
   private:
-    const uint16_t maxVoltage = 3300;            ///< Voltage when no resistance is applied
-    const uint16_t adcSize = 4095;               ///< Range of the ADC on the used Arduino Due pin
-    const uint16_t pullDownResistor = 46000;     ///< Used pulldown resistor on the sensor
-    int resistance = 0;                          ///< Stores the current resistance measured
-    std::array<int, 5> rawData{{0, 0, 0, 0, 0}}; ///< Stores the raw measurements to be filtered
+    const uint16_t maxVoltage = 3300;            ///< Voltage when no resistance is applied.
+    const uint16_t adcSize = 4095;               ///< Range of the ADC on the used Arduino Due pin.
+    const uint16_t pullDownResistor = 46000;     ///< Used pulldown resistor on the sensor.
+    int resistance = 0;                          ///< Stores the current resistance measured.
+    std::array<int, 5> rawData{{0, 0, 0, 0, 0}}; ///< Stores the raw measurements to be filtered.
 
     /**
-     * @brief Median filter
+     * @brief Median filter.
      *
      * This function returns the median value from five in an array placed integers.
      *
      * The integers are sorted from lowest to highest before returning the middle
      * value (median).
      *
-     * @param inputData: an array of five integers to be filtered
-     * @return Median of the given data as integer
+     * @param[in] inputData: an array of five integers to be filtered.
+     * @return Median of the given data as integer.
      */
     int medianFilter(std::array<int, 5> rawData);
 
     /**
-     * @brief Update the resistance measurement
+     * @brief Update the resistance measurement.
      *
      * The current resistance is calculated from the ADC input and stored in the
      * resistance variable (int).
@@ -46,29 +46,29 @@ class StrainGauge {
     void update();
 
   protected:
-    hwlib::adc &inputPin;   ///< Stores the address of the ADC pin connected to the sensor
-    int calibrateValue = 0; ///< Stores the value to calibrate the sensor to
+    hwlib::adc &inputPin;   ///< Stores the address of the ADC pin connected to the sensor.
+    int calibrateValue = 0; ///< Stores the value to calibrate the sensor to.
 
   public:
     /**
-     * @brief StrainGauge constructor
+     * @brief StrainGauge constructor.
      *
      * Costructor for StrainGauge.
      *
-     * @param inputPin stores the address of the ADC pin the sensor is connected to
+     * @param[in] inputPin stores the address of the ADC pin the sensor is connected to.
      */
     explicit StrainGauge(hwlib::adc &inputPin) : inputPin(inputPin) {
     }
     /**
-     * @brief Returns the current measured resistance
+     * @brief Returns the current measured resistance.
      *
      * This function calls the update() function before returning the resistance.
      *
-     * @return Current resistance in ohms as integer
+     * @return Current resistance in ohms as integer.
      */
     int getResistance();
     /**
-     * @brief Calibrate the sensor to a 0 point
+     * @brief Calibrate the sensor to a 0 point.
      *
      * This function can be called to set the current measured resistance as a
      * 0 point. This way the resistance can easily be compared to a set point.

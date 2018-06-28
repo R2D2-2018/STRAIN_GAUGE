@@ -12,22 +12,22 @@
 
 class FlexSensor : public StrainGauge {
   private:
-    int angle = 0;        ///< Stores current angle of flex sensor in integer
-    float range = 40'000; ///< Range in ohms from 0 to 90 degrees
+    int angle = 0;        ///< Stores current angle of flex sensor in integer.
+    float range = 40'000; ///< Range in ohms from 0 to 90 degrees.
 
   public:
     /**
-     * @brief FlexSensor constructor
+     * @brief FlexSensor constructor.
      *
      * Constructor for FlexSensor. Given a hwlib::adc input pin, stored in
      * the StrainGauge class.
      *
-     * @param inputPin storing ADC pin address to read voltage from the sensor
+     * @param[in] inputPin Storing ADC pin address to read voltage from the sensor.
      */
     explicit FlexSensor(hwlib::adc &inputPin) : StrainGauge(inputPin) {
     }
     /**
-     * @brief Return current angle of sensor
+     * @brief Return current angle of sensor.
      *
      * This function returns the current angle the sensor is in, compared
      * to the calibrated 0 degree point.
@@ -37,7 +37,7 @@ class FlexSensor : public StrainGauge {
      * devided by the range from 0 to 90 degrees is ohms and multiplied by 90
      * to get the current angle.
      *
-     * @return Current angle in degrees in integer
+     * @return Current angle in degrees in integer.
      */
     int getAngle();
 };
